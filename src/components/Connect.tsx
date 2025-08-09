@@ -89,27 +89,6 @@ const Connect: React.FC = () => {
           </div>
 
           {/* Call to Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            <a
-              href="https://cfx.re/join/7zq6gv"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 px-12 py-5 rounded-xl font-bold text-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-red-500/30 flex items-center space-x-3 min-w-[300px] justify-center"
-            >
-              <Play className="w-6 h-6" />
-              <span>Start Playing Now</span>
-            </a>
-            
-            <a
-              href={discordLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border-2 border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black px-12 py-5 rounded-xl font-bold text-xl transition-all duration-300 transform hover:scale-105 min-w-[300px] text-center backdrop-blur-sm flex items-center justify-center space-x-3"
-            >
-              <MessageSquare className="w-6 h-6" />
-              <span>Discord & Support</span>
-            </a>
-          </div>
 
           {/* Additional Info */}
           <div className="bg-gradient-to-r from-red-900/30 to-yellow-900/30 rounded-2xl p-6 border border-red-500/20">

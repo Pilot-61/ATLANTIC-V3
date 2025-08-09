@@ -35,16 +35,16 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden relative">
       {/* Video Background */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="fixed inset-0 w-full h-full object-cover z-0"
-      >
-        <source src="/BG%20-%20Made%20with%20Clipchamp.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+     <video
+  autoPlay
+  loop
+  muted
+  playsInline
+  className="fixed inset-0 w-full h-full object-cover z-0"
+>
+  <source src={`${import.meta.env.BASE_URL}BG%20-%20Made%20with%20Clipchamp.mp4`} type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
 
       {/* Overlay Effects (optional, can be removed if you want only video) */}
       <div className="fixed inset-0 z-0 pointer-events-none">

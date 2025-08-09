@@ -26,7 +26,7 @@ const Navigation: React.FC<NavigationProps> = ({ isMenuOpen, setIsMenuOpen, scro
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-2 cursor-pointer" onClick={() => scrollToSection('home')}>
             <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-lg overflow-hidden bg-gradient-to-r from-red-600 to-yellow-500">
-              <img src="/images.jpg" alt="Atlantic RP Logo" className="w-10 h-10 object-cover" />
+<img src={`${import.meta.env.BASE_URL}images.jpg`} alt="Atlantic RP Logo" className="w-10 h-10 object-cover" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
               ATLANTIC RP

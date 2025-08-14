@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 const App: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [currentPage, setCurrentPage] = useState('home');
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -27,26 +28,38 @@ const App: React.FC = () => {
         }
       }
     };
-
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, [isMenuOpen]);
 
+  // Scroll to top on page change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
+
+  // Render the correct page
+  let PageComponent = null;
+  if (currentPage === 'home') PageComponent = <Hero setCurrentPage={setCurrentPage} />;
+  if (currentPage === 'features') PageComponent = <Features />;
+  if (currentPage === 'rules') PageComponent = <Rules />;
+  if (currentPage === 'community') PageComponent = <Community />;
+  if (currentPage === 'connect') PageComponent = <Connect />;
+
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden relative">
       {/* Video Background */}
-     <video
-  autoPlay
-  loop
-  muted
-  playsInline
-  className="fixed inset-0 w-full h-full object-cover z-0"
->
-  <source src={`${import.meta.env.BASE_URL}BG%20-%20Made%20with%20Clipchamp.mp4`} type="video/mp4" />
-  Your browser does not support the video tag.
-</video>
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="fixed inset-0 w-full h-full object-cover z-0"
+      >
+        <source src={`${import.meta.env.BASE_URL}BG%20-%20Made%20with%20Clipchamp.mp4`} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
 
-      {/* Overlay Effects (optional, can be removed if you want only video) */}
+      {/* Overlay Effects */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 via-yellow-900/10 to-black"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(220,38,38,0.1),transparent)] animate-pulse"></div>
@@ -55,17 +68,20 @@ const App: React.FC = () => {
 
       {/* Main Content */}
       <div className="relative z-10">
-        <Navigation 
-          isMenuOpen={isMenuOpen} 
-          setIsMenuOpen={setIsMenuOpen} 
-          scrollY={scrollY} 
+        <Navigation
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+          scrollY={scrollY}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
         />
-        <Hero />
-        <Features />
-        <Rules />
-        <Community />
-        <Connect />
-        <Footer />
+        <div className="transition-all duration-300">
+          {PageComponent}
+        </div>
+        <Footer
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
 
       {/* Custom Styles */}

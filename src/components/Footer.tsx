@@ -1,48 +1,46 @@
 import React from 'react';
 import { Crown, MessageSquare, Users, Shield, ExternalLink } from 'lucide-react';
 
-const Footer: React.FC = () => {
+const quickLinks = [
+  { name: 'Home', id: 'home' },
+  { name: 'Features', id: 'features' },
+  { name: 'Rules', id: 'rules' },
+  { name: 'Community', id: 'community' },
+  { name: 'Connect', id: 'connect' }
+];
+
+const socialLinks = [
+  {
+    name: 'Discord',
+    href: 'https://discord.gg/DRF4qPmA',
+    icon: <MessageSquare className="w-5 h-5" />,
+    color: 'hover:text-blue-400'
+  },
+  {
+    name: 'YouTube',
+    href: 'https://www.youtube.com/@moroccanrp',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" width="20" height="20"><path d="M23.498 6.186a2.994 2.994 0 0 0-2.112-2.112C19.236 3.5 12 3.5 12 3.5s-7.236 0-9.386.574A2.994 2.994 0 0 0 .502 6.186C0 8.336 0 12 0 12s0 3.664.502 5.814a2.994 2.994 0 0 0 2.112 2.112C4.764 20.5 12 20.5 12 20.5s7.236 0 9.386-.574a2.994 2.994 0 0 0 2.112-2.112C24 15.664 24 12 24 12s0-3.664-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    ),
+    color: 'hover:text-red-500'
+  },
+  {
+    name: 'TikTok',
+    href: 'https://www.tiktok.com/@atlanticrpv3',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" width="20" height="20"><path d="M12.004 2c.001 2.21 1.792 4.001 4.001 4.001.001 0 .001 0 .001 0v2.001c-1.104 0-2-.896-2-2V2h-2.002v12.001c0 2.209-1.792 4.001-4.001 4.001s-4.001-1.792-4.001-4.001c0-2.209 1.792-4.001 4.001-4.001.001 0 .001 0 .001 0V8.001c-3.313 0-6.001 2.687-6.001 6.001s2.687 6.001 6.001 6.001c3.313 0 6.001-2.687 6.001-6.001V2h-2.001z"/></svg>
+    ),
+    color: 'hover:text-black'
+  }
+];
+
+interface FooterProps {
+  currentPage: string;
+  setCurrentPage: (page: string) => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ currentPage, setCurrentPage }) => {
   const currentYear = new Date().getFullYear();
-
-  const quickLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'Features', href: '#features' },
-    { name: 'Rules', href: '#rules' },
-    { name: 'Community', href: '#community' },
-    { name: 'Connect', href: '#connect' }
-  ];
-
-  const socialLinks = [
-    {
-      name: 'Discord',
-      href: 'https://discord.gg/DRF4qPmA',
-      icon: <MessageSquare className="w-5 h-5" />,
-      color: 'hover:text-blue-400'
-    },
-    {
-      name: 'YouTube',
-      href: 'https://www.youtube.com/@moroccanrp',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" width="20" height="20"><path d="M23.498 6.186a2.994 2.994 0 0 0-2.112-2.112C19.236 3.5 12 3.5 12 3.5s-7.236 0-9.386.574A2.994 2.994 0 0 0 .502 6.186C0 8.336 0 12 0 12s0 3.664.502 5.814a2.994 2.994 0 0 0 2.112 2.112C4.764 20.5 12 20.5 12 20.5s7.236 0 9.386-.574a2.994 2.994 0 0 0 2.112-2.112C24 15.664 24 12 24 12s0-3.664-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-      ),
-      color: 'hover:text-red-500'
-    },
-    {
-      name: 'TikTok',
-      href: 'https://www.tiktok.com/@atlanticrpv3',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" width="20" height="20"><path d="M12.004 2c.001 2.21 1.792 4.001 4.001 4.001.001 0 .001 0 .001 0v2.001c-1.104 0-2-.896-2-2V2h-2.002v12.001c0 2.209-1.792 4.001-4.001 4.001s-4.001-1.792-4.001-4.001c0-2.209 1.792-4.001 4.001-4.001.001 0 .001 0 .001 0V8.001c-3.313 0-6.001 2.687-6.001 6.001s2.687 6.001 6.001 6.001c3.313 0 6.001-2.687 6.001-6.001V2h-2.001z"/></svg>
-      ),
-      color: 'hover:text-black'
-    }
-  ];
-
-  const scrollToSection = (elementId: string) => {
-    const element = document.getElementById(elementId.replace('#', ''));
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <footer className="relative bg-black/90 border-t border-red-500/20">
@@ -58,7 +56,7 @@ const Footer: React.FC = () => {
             <div className="lg:col-span-2">
               <div className="flex items-center space-x-3 mb-6">
                 <div className="w-12 h-12 bg-gradient-to-r from-red-600 to-yellow-500 rounded-full flex items-center justify-center shadow-lg overflow-hidden">
-<img src={`${import.meta.env.BASE_URL}images.jpg`} alt="Atlantic RP Logo" className="w-10 h-10 object-cover" />
+                  <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Atlantic RP Logo" className="w-10 h-10 object-cover" />
                 </div>
                 <div>
                   <span className="text-2xl font-bold bg-gradient-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
@@ -99,10 +97,13 @@ const Footer: React.FC = () => {
               </h3>
               <ul className="space-y-3">
                 {quickLinks.map((link) => (
-                  <li key={link.name}>
+                  <li key={link.id}>
                     <button
-                      onClick={() => scrollToSection(link.href)}
-                      className="text-gray-300 hover:text-red-400 transition-colors duration-300 hover:translate-x-1 transform inline-block"
+                      onClick={() => setCurrentPage(link.id)}
+                      className={`relative text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium px-3 py-2 rounded-lg
+                        ${currentPage === link.id ? 'after:absolute after:left-0 after:-bottom-1 after:w-full after:h-0.5 after:bg-gradient-to-r after:from-red-500 after:to-yellow-500 after:rounded-full after:transition-all after:duration-300 text-yellow-400' : ''}
+                      `}
+                      style={{ minWidth: 48, minHeight: 48 }}
                     >
                       {link.name}
                     </button>

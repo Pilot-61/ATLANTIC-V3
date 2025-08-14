@@ -1,7 +1,7 @@
 import React from 'react';
 import { Play, ChevronRight, Users, Clock, Briefcase, Zap } from 'lucide-react';
 
-const Hero: React.FC = () => {
+const Hero: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCurrentPage }) => {
   const stats = [
     { icon: <Users className="w-5 h-5" />, number: "500+", label: "Active Players" },
     { icon: <Clock className="w-5 h-5" />, number: "24/7", label: "Server Uptime" },
@@ -9,27 +9,11 @@ const Hero: React.FC = () => {
     { icon: <Zap className="w-5 h-5" />, number: "99.9%", label: "Performance" }
   ];
 
-  const scrollToConnect = () => {
-    const element = document.getElementById('connect');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const scrollToFeatures = () => {
-    const element = document.getElementById('features');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center pt-16">
       {/* Animated Particles */}
       <div className="absolute inset-0 z-20">
-        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-red-500 rounded-full animate-pulse opacity-60"></div>
         <div className="absolute top-1/3 right-1/4 w-1 h-1 bg-yellow-500 rounded-full animate-ping opacity-40"></div>
-        <div className="absolute bottom-1/4 left-1/3 w-3 h-3 bg-red-400 rounded-full animate-pulse opacity-30 animation-delay-1000"></div>
         <div className="absolute top-1/2 right-1/3 w-1 h-1 bg-yellow-400 rounded-full animate-ping opacity-50 animation-delay-2000"></div>
       </div>
 
@@ -48,8 +32,8 @@ const Hero: React.FC = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 animate-fade-in-up animation-delay-500">
-          <button 
-            onClick={scrollToConnect}
+          <button
+            onClick={() => setCurrentPage('connect')}
             className="group bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 px-10 py-5 rounded-xl font-bold text-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-red-500/30 flex items-center space-x-3 min-w-[250px] justify-center"
           >
             <Play className="w-6 h-6" />
@@ -57,7 +41,7 @@ const Hero: React.FC = () => {
             <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" />
           </button>
           <button 
-            onClick={scrollToFeatures}
+            onClick={() => setCurrentPage('features')}
             className="border-2 border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black px-10 py-5 rounded-xl font-bold text-xl transition-all duration-300 transform hover:scale-105 min-w-[250px] backdrop-blur-sm"
           >
             Discover More
@@ -79,8 +63,6 @@ const Hero: React.FC = () => {
           ))}
         </div>
       </div>
-
-  {/* Scroll indicator removed as requested */}
     </section>
   );
 };

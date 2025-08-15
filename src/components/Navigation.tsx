@@ -1,11 +1,13 @@
 import React from 'react';
-import { Crown, Menu, X } from 'lucide-react';
+import { Crown, Menu, X, LogIn, UserPlus, User, LogOut, Shield } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 const NAV_LINKS = [
   { id: 'home', label: 'Home' },
   { id: 'features', label: 'Features' },
   { id: 'rules', label: 'Rules' },
   { id: 'community', label: 'Community' },
+  { id: 'social-feed', label: 'Community Feed' },
   { id: 'connect', label: 'Connect' },
 ];
 
@@ -15,6 +17,8 @@ interface NavigationProps {
   scrollY: number;
   currentPage: string;
   setCurrentPage: (page: string) => void;
+  setShowLogin: (show: boolean) => void;
+  setShowRegister: (show: boolean) => void;
 }
 
 const Navigation: React.FC<NavigationProps> = ({
@@ -23,7 +27,16 @@ const Navigation: React.FC<NavigationProps> = ({
   scrollY,
   currentPage,
   setCurrentPage,
+  setShowLogin,
+  setShowRegister,
 }) => {
+  const { currentUser, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    setCurrentPage('home');
+  };
+
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
       scrollY > 100 
@@ -47,7 +60,7 @@ const Navigation: React.FC<NavigationProps> = ({
           </div>
           
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
+            <div className="ml-10 flex items-center space-x-6">
               {NAV_LINKS.map((link) => (
                 <button
                   key={link.id}
@@ -60,6 +73,70 @@ const Navigation: React.FC<NavigationProps> = ({
                   {link.label}
                 </button>
               ))}
+              
+              {/* Auth Section */}
+              <div className="flex items-center space-x-4 ml-6 pl-6 border-l border-gray-600/50">
+                {currentUser ? (
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-2">
+                      <img
+                        src={currentUser.profilePicture}
+                        alt={currentUser.username}
+                        className="w-8 h-8 rounded-full object-cover border-2 border-red-500/30"
+                      />
+                      <span className="text-white font-medium">{currentUser.username}</span>
+                      {currentUser.role === 'admin' && (
+                        <Crown className="w-4 h-4 text-yellow-400" />
+                      )}
+                    </div>
+                    
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => setCurrentPage('user-profile')}
+                        className="p-2 text-gray-300 hover:text-yellow-400 transition-colors duration-300 rounded-lg hover:bg-red-500/10"
+                        title="My Profile"
+                      >
+                        <User className="w-5 h-5" />
+                      </button>
+                      
+                      {currentUser.role === 'admin' && (
+                        <button
+                          onClick={() => setCurrentPage('admin-dashboard')}
+                          className="p-2 text-gray-300 hover:text-red-400 transition-colors duration-300 rounded-lg hover:bg-red-500/10"
+                          title="Admin Dashboard"
+                        >
+                          <Shield className="w-5 h-5" />
+                        </button>
+                      )}
+                      
+                      <button
+                        onClick={handleLogout}
+                        className="p-2 text-gray-300 hover:text-red-400 transition-colors duration-300 rounded-lg hover:bg-red-500/10"
+                        title="Logout"
+                      >
+                        <LogOut className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-3">
+                    <button
+                      onClick={() => setShowLogin(true)}
+                      className="flex items-center space-x-2 text-gray-300 hover:text-yellow-400 transition-colors duration-300 px-3 py-2 rounded-lg hover:bg-red-500/10"
+                    >
+                      <LogIn className="w-4 h-4" />
+                      <span>Sign In</span>
+                    </button>
+                    <button
+                      onClick={() => setShowRegister(true)}
+                      className="flex items-center space-x-2 bg-gradient-to-r from-red-600 to-yellow-600 hover:from-red-700 hover:to-yellow-700 px-4 py-2 rounded-lg font-semibold text-white transition-all duration-300 transform hover:scale-105"
+                    >
+                      <UserPlus className="w-4 h-4" />
+                      <span>Sign Up</span>
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -96,6 +173,83 @@ const Navigation: React.FC<NavigationProps> = ({
                 {link.label}
               </button>
             ))}
+            
+            {/* Mobile Auth Section */}
+            <div className="border-t border-gray-700/50 pt-3 mt-3">
+              {currentUser ? (
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-3 px-3 py-2">
+                    <img
+                      src={currentUser.profilePicture}
+                      alt={currentUser.username}
+                      className="w-8 h-8 rounded-full object-cover border-2 border-red-500/30"
+                    />
+                    <span className="text-white font-medium">{currentUser.username}</span>
+                    {currentUser.role === 'admin' && (
+                      <Crown className="w-4 h-4 text-yellow-400" />
+                    )}
+                  </div>
+                  
+                  <button
+                    onClick={() => {
+                      setCurrentPage('user-profile');
+                      setIsMenuOpen(false);
+                    }}
+                    className="flex items-center space-x-2 w-full text-left px-3 py-3 text-gray-300 hover:text-yellow-400 hover:bg-black/60 rounded-lg transition-all duration-300"
+                  >
+                    <User className="w-5 h-5" />
+                    <span>My Profile</span>
+                  </button>
+                  
+                  {currentUser.role === 'admin' && (
+                    <button
+                      onClick={() => {
+                        setCurrentPage('admin-dashboard');
+                        setIsMenuOpen(false);
+                      }}
+                      className="flex items-center space-x-2 w-full text-left px-3 py-3 text-gray-300 hover:text-red-400 hover:bg-black/60 rounded-lg transition-all duration-300"
+                    >
+                      <Shield className="w-5 h-5" />
+                      <span>Admin Dashboard</span>
+                    </button>
+                  )}
+                  
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsMenuOpen(false);
+                    }}
+                    className="flex items-center space-x-2 w-full text-left px-3 py-3 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-all duration-300"
+                  >
+                    <LogOut className="w-5 h-5" />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <button
+                    onClick={() => {
+                      setShowLogin(true);
+                      setIsMenuOpen(false);
+                    }}
+                    className="flex items-center space-x-2 w-full text-left px-3 py-3 text-gray-300 hover:text-yellow-400 hover:bg-black/60 rounded-lg transition-all duration-300"
+                  >
+                    <LogIn className="w-5 h-5" />
+                    <span>Sign In</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowRegister(true);
+                      setIsMenuOpen(false);
+                    }}
+                    className="flex items-center space-x-2 w-full text-left px-3 py-3 bg-gradient-to-r from-red-600 to-yellow-600 hover:from-red-700 hover:to-yellow-700 text-white rounded-lg transition-all duration-300"
+                  >
+                    <UserPlus className="w-5 h-5" />
+                    <span>Sign Up</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
